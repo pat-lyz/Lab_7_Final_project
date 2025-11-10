@@ -18,7 +18,7 @@ module averager
         if (reset) begin
             sum <= 0;
             for (int j = 1; j <= 2**power; j++) begin
-                REG_ARRAY[j] <= 0;
+                REG_AY[j] <= 0;
             end
         end
         else if (EN) begin
@@ -30,3 +30,4 @@ module averager
         end
     end
 endmodule
+
