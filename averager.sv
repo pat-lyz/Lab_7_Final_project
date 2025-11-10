@@ -30,5 +30,3 @@ module averager
         end
     end
 endmodule
-
-
