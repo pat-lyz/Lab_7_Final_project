@@ -69,6 +69,7 @@ module adc_subsystem(
       .EN(ready_pulse),
       .Din(data),
       .Q(ave_data)
+     
     );
     always_ff @(posedge clk) begin
         if (reset) begin
