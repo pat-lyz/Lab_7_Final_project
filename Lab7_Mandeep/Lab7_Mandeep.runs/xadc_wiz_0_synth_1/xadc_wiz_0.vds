@@ -1,0 +1,30 @@
+#-----------------------------------------------------------
+# Vivado v2025.1 (64-bit)
+# SW Build 6140274 on Thu May 22 00:12:29 MDT 2025
+# IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
+# SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
+# Start of session at: Mon Nov 10 10:25:45 2025
+# Process ID         : 44436
+# Current directory  : C:/Users/ihave/OneDrive/Documents/GitHub/ENEL453Lab7/Lab_7_thing/Lab7_Mandeep/Lab7_Mandeep.runs/xadc_wiz_0_synth_1
+# Command line       : vivado.exe -log xadc_wiz_0.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source xadc_wiz_0.tcl
+# Log file           : C:/Users/ihave/OneDrive/Documents/GitHub/ENEL453Lab7/Lab_7_thing/Lab7_Mandeep/Lab7_Mandeep.runs/xadc_wiz_0_synth_1/xadc_wiz_0.vds
+# Journal file       : C:/Users/ihave/OneDrive/Documents/GitHub/ENEL453Lab7/Lab_7_thing/Lab7_Mandeep/Lab7_Mandeep.runs/xadc_wiz_0_synth_1\vivado.jou
+# Running On         : DESKTOP-82S4U1S
+# Platform           : Windows Server 2016 or Windows 10
+# Operating System   : 26100
+# Processor Detail   : 11th Gen Intel(R) Core(TM) i7-1165G7 @ 2.80GHz
+# CPU Frequency      : 2803 MHz
+# CPU Physical cores : 4
+# CPU Logical cores  : 8
+# Host memory        : 16801 MB
+# Swap memory        : 22548 MB
+# Total Virtual      : 39350 MB
+# Available Virtual  : 14037 MB
+#-----------------------------------------------------------
+source xadc_wiz_0.tcl -notrace
+create_project: Time (s): cpu = 00:00:08 ; elapsed = 00:00:07 . Memory (MB): peak = 492.406 ; gain = 213.430
+Command: synth_design -top xadc_wiz_0 -part xc7a35tcpg236-1 -incremental_mode off -mode out_of_context
+0 Infos, 0 Warnings, 0 Critical Warnings and 1 Errors encountered.
+synth_design failed
+ERROR: [Common 17-1293] The path 'C:/Users/ihave/OneDrive/Documents/GitHub/ENEL453Lab7/Lab_7_thing/Lab7_Mandeep/Lab7_Mandeep.cache/wt' already exists, is a directory, but is not writable.
+INFO: [Common 17-206] Exiting Vivado at Mon Nov 10 10:25:56 2025...
