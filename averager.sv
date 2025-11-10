@@ -8,11 +8,16 @@ module averager
         EN,
         input logic [N-1:0] Din,   // input to averager
         output logic [N-1:0] Q     // N-bit moving average
+        output logic [N+5:0] Q_scaled   // wide enough for *33
     );
 
     logic [N-1:0] REG_ARRAY [2**power:1];
     logic [power+N-1:0] sum;
     assign Q = sum[power+N-1:power];
+
+    logic [N+5:0] scaled_temp;
+    assign scaled_temp = Q * 33;
+    assign Q_scaled = scaled_temp / 10;
 
     always_ff @(posedge clk) begin
         if (reset) begin
@@ -30,5 +35,6 @@ module averager
         end
     end
 endmodule
+
 
 
