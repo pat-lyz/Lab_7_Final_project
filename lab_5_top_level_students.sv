@@ -60,7 +60,7 @@ module lab_5_top_level_students (
     .ready_pulse(ready_pulse)
     );
 
-logic [3:0] d3, d2, d1, d0; 
+/*logic [3:0] d3, d2, d1, d0; 
 logic [3:0] dp_mask;        
 
 // For displaying voltage in format 0.000
@@ -70,7 +70,7 @@ assign d1 = (scaled_adc_data / 10) % 10;     // tens of mV
 assign d0 = scaled_adc_data % 10;            // ones of mV
 
 // Decimal point after the leftmost digit => 0.xxx
-assign dp_mask = 4'b1000; 
+assign dp_mask = 4'b1000; */
 
     
 // Connect ADC data to LEDs
@@ -120,22 +120,24 @@ assign led = scaled_adc_data;
         .clk(clk), 
         .reset(reset),
         
-        .sec_dig1(d0),   // rightmost
+        /*.sec_dig1(d0),   // rightmost
         .sec_dig2(d1),
         .min_dig1(d2),
         .min_dig2(d3),   // leftmost
 
-        .decimal_point(dp_mask),
-        /*.sec_dig1(mux_out[3:0]),     // Lowest digit
+        .decimal_point(dp_mask),*/
+        
+        .sec_dig1(mux_out[3:0]),     // Lowest digit
         .sec_dig2(mux_out[7:4]),     // Second digit
         .min_dig1(mux_out[11:8]),    // Third digit
         .min_dig2(mux_out[15:12]),   // Highest digit
-        .decimal_point(decimal_pt),*/
+        .decimal_point(decimal_pt),
         .CA(CA), .CB(CB), .CC(CC), .CD(CD), 
         .CE(CE), .CF(CF), .CG(CG), .DP(DP), 
         .AN1(AN1), .AN2(AN2), .AN3(AN3), .AN4(AN4)
     );
     
 endmodule
+
 
 
