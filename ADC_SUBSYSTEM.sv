@@ -84,7 +84,7 @@ module adc_subsystem(
             //       i.e. 9999 is 0.9999 V or 999.9 mV
             //       place the decimal point in the correct place!
             // Convert averaged ADC → millivolts (0–3300 mV)
-            scaled_adc_data <= (ave_data * 16'd3300) >> 16;    // was scaled_adc_data_temp
+            scaled_adc_data <= (ave_data * 1650) >> 15;    // was scaled_adc_data_temp
             //scaled_adc_data <= scaled_adc_data_temp; // additional register faciliates pipelining
         end 
    
