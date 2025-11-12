@@ -82,7 +82,7 @@ module adc_subsystem(
             // NOTE: The 7-seg display will display in millivolts, 
             //       i.e. 9999 is 0.9999 V or 999.9 mV
             //       place the decimal point in the correct place!
-            scaled_adc_data <= (ave_data*1650) >> 15; // was scaled_adc_data_temp
+            scaled_adc_data <= (ave_data*4996) >> 15; // was scaled_adc_data_temp
             //scaled_adc_data <= scaled_adc_data_temp; // additional register faciliates pipelining
         end 
    
