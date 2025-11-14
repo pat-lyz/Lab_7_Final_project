@@ -1,20 +1,20 @@
 module mux4_16_bits(
-    input  logic [15:0] in0,  
-    input  logic [15:0] in1,  
-    input  logic [15:0] in2, 
+    input  logic [15:0] raw_adc,  
+    input  logic [15:0] averaged_adc,  
+    input  logic [15:0] scaled_voltage, 
     input  logic [15:0] in3,  
     input  logic  [1:0] select,  
-    output logic [15:0] mux_out,
+    output logic [15:0] display_data,
     output logic  [3:0] decimal_point  
     );
 
     always_comb begin
         case(select)
-            2'b00: mux_out = in0;  
-            2'b01: mux_out = in1;  
-            2'b10: mux_out = in2;
-            2'b11: mux_out = in3;
-            default: mux_out = 16'h0000;  // Default case: output all zeros
+            2'b00: display_data = raw_adc;  // raw ADC
+            2'b01: display_data = averaged_adc;  // averaged ADC
+            2'b10: display_data = scaled_voltage;  // scaled voltage
+            2'b11: display_data = in3;  // unused
+            default: display_data = 16'h0000;  // Default case: output all zeros
         endcase
     end    
 
