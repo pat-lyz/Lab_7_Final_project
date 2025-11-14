@@ -28,10 +28,6 @@ module lab_5_top_level_students (
     logic [15:0] scaled_adc_data, scaled_adc_data_temp; // Scaled ADC data for display
     logic [6:0]  daddr_in;              // XADC address
     logic        enable;                // XADC enable
-   // logic [4:0]  channel_out;           // Current XADC channel
-    //logic        eoc_out;               // End of conversion
-    //logic        eos_out;               // End of sequence
-    //logic        busy_out;              // XADC busy signal
     
     logic        ready_r, ready_pulse;
     logic [3:0]  decimal_pt; // vector to control the decimal point, 1 = DP on, 0 = DP off
@@ -41,9 +37,7 @@ module lab_5_top_level_students (
                              // [1000] DP right of tens of minutes digit
     logic [15:0] bcd_value, mux_out;
     
-    // Constants
-    //localparam CHANNEL_ADDR = 7'h1f;     // XA4/AD15 (for XADC4)
-    
+    // Averager and XADC subsystem
     adc_subsystem ADC_SUBSYSTEM(
     .vauxp15(vauxp15),
     .vauxn15(vauxn15),
@@ -52,7 +46,7 @@ module lab_5_top_level_students (
     .ready(  ready),     
     .enable( enable),  
     .data(   data[15:0]),
-    .ave_data(ave_data),
+        .ave_data(ave_data),
     .scaled_adc_data(scaled_adc_data),
     .ready_pulse(ready_pulse)
     );
@@ -87,7 +81,7 @@ assign led = scaled_adc_data;
   always_comb begin
     case(bin_bcd_select)
         2'b00: decimal_pt = 4'b0000;  // averaged ADC with extra 4 bits
-        2'b01: decimal_pt = 4'b0010;  // averaged and scaled voltage
+        2'b01: decimal_pt = 4'b1000;  // averaged and scaled voltage
         2'b10: decimal_pt = 4'b0000;  // raw ADC (12-bits)
         2'b11: decimal_pt = 4'b0000;
         default: decimal_pt = 16'h0000;  // Default case: output all zeros
@@ -114,6 +108,7 @@ assign led = scaled_adc_data;
     );
     
 endmodule
+
 
 
 
