@@ -21,10 +21,7 @@ module lab_5_top_level_students (
     output logic [15:0] led
 );
     // Internal signal declarations
-    
-    // Tie analog inputs to high-impedance to prevent I/O buffer inference
-    //assign vauxp5 = 1'bZ;
-    //assign vauxn5 = 1'bZ;
+
         
     logic        ready;              // Data ready from XADC
     logic [15:0] data, ave_data;              // Raw ADC data
@@ -59,19 +56,6 @@ module lab_5_top_level_students (
     .scaled_adc_data(scaled_adc_data),
     .ready_pulse(ready_pulse)
     );
-
-/*logic [3:0] d3, d2, d1, d0; 
-logic [3:0] dp_mask;        
-
-// For displaying voltage in format 0.000
-assign d3 = 4'd0;
-assign d2 = scaled_adc_data / 100;           // hundreds of mV
-assign d1 = (scaled_adc_data / 10) % 10;     // tens of mV
-assign d0 = scaled_adc_data % 10;            // ones of mV
-
-// Decimal point after the leftmost digit => 0.xxx
-assign dp_mask = 4'b1000; */
-
     
 // Connect ADC data to LEDs
 assign led = scaled_adc_data;
@@ -118,15 +102,7 @@ assign led = scaled_adc_data;
     // Seven Segment Display Subsystem
     seven_segment_display_subsystem SEVEN_SEGMENT_DISPLAY (
         .clk(clk), 
-        .reset(reset),
-        
-        /*.sec_dig1(d0),   // rightmost
-        .sec_dig2(d1),
-        .min_dig1(d2),
-        .min_dig2(d3),   // leftmost
-
-        .decimal_point(dp_mask),*/
-        
+        .reset(reset),    
         .sec_dig1(mux_out[3:0]),     // Lowest digit
         .sec_dig2(mux_out[7:4]),     // Second digit
         .min_dig1(mux_out[11:8]),    // Third digit
@@ -138,6 +114,7 @@ assign led = scaled_adc_data;
     );
     
 endmodule
+
 
 
 
