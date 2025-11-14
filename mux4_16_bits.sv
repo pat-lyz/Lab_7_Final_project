@@ -21,7 +21,7 @@ module mux4_16_bits(
    always_comb begin
      case(select)
          2'b00: decimal_point = 4'b0000;  // averaged ADC with extra 4 bits
-         2'b01: decimal_point = 4'b0010;  // averaged and scaled voltage
+         2'b01: decimal_point = 4'b1000;  // averaged and scaled voltage
          2'b10: decimal_point = 4'b0000;  // raw ADC (12-bits)
          2'b11: decimal_point = 4'b0000;
          default: decimal_point = 16'h0000;  // Default case: output all zeros
