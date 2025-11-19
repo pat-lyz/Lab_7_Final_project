@@ -1,51 +1,27 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 11/14/2025 02:21:28 PM
-// Design Name: 
-// Module Name: SAWTOOTH_SUBSYSTEM
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
+/*
+This subsystem outputs the sawtooth wave, as well as captures and computes the data recieved from the sawtooth comparator circuit.
+It takes the data and outputs the raw, averaged, and scaled hexidecimal and decimal values. 
+*/
 
 
 module sawtooth_subsystem(
     input logic clk,
     input logic reset,
-    input logic vcompare_state,  
-    output logic sawtooth_out,  
-    output logic [7:0] saw_raw_adc_value,
-    output logic [7:0] saw_scaled_voltage,
-    output logic [7:0] saw_averaged_adc_value,
-    output logic [15:0] bcd_out
+    input logic vcompare_state, //sawtooth comparator output 
+    output logic sawtooth_out,  //outputs the sawtooth wave
+    output logic [7:0] saw_raw_adc_value,   //raw comparator value
+    output logic [15:0] saw_scaled_voltage, // hexidecimal scaled and averaged voltage values
+    output logic [7:0] saw_averaged_adc_value,  // hexidecimal averaged voltage
+    output logic [15:0] bcd_out //decimal scaled and averaged voltage
 );    
 // INTERNAL SIGNALS
     
     // Sawtooth Signals
     logic sync_edge_out;
     logic [7:0] saw_duty_cycle_out;
-    //logic [7:0] saw_raw_adc_value;
     logic       saw_raw_adc_valid;
-   // logic [7:0] saw_scaled_voltage;
-    //logic [7:0] saw_averaged_adc_value;
-    
-    // Display Signals
-    //logic [3:0] decimal_point;
-    logic [15:0] display_data;
-    //logic [15:0] bcd_out;
-    //logic [15:0] bcd_mux_out;
-    
+
 // INSTANTIATIONS
   
     // Comparator edge detector
@@ -55,8 +31,7 @@ module sawtooth_subsystem(
         .comparator_raw(vcompare_state),
         .sync_edge_out(sync_edge_out)  
     );
-
-    
+   
     // Sawtooth Waveform 
     sawtooth #(
         .WIDTH(8),
@@ -89,14 +64,13 @@ module sawtooth_subsystem(
         .raw_adc_value(saw_raw_adc_value),
         .scaled_voltage(saw_scaled_voltage),
         .avg_adc_value(saw_averaged_adc_value)
-    );
-    
+    );  
        
     // BCD converter
     bin_to_bcd_saw BIN_TO_BCD_SAW (
         .clk(clk),
         .reset(reset),
-        .bin_in({8'b0000_0000,saw_scaled_voltage}),
+        .bin_in(saw_scaled_voltage),
         .bcd_out(bcd_out)
     );
     
