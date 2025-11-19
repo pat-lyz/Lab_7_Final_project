@@ -1,5 +1,8 @@
 `timescale 1ns / 1ps
-
+/*
+this module takes the raw values from the comparator and goes through the process of scaling 
+and then averaging them into scaled_voltage and avg_adc_value
+*/
 
 module saw_avg_scale(
     input logic clk,
@@ -99,4 +102,3 @@ module saw_avg_scale(
       end 
       
 endmodule
-
