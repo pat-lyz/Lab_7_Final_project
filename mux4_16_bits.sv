@@ -33,9 +33,9 @@ module mux4_16_bits(
          3'b010: decimal_point = 4'b0000;  // raw ADC (12-bits)
          3'b011: decimal_point = 4'b0000;
          3'b100: decimal_point = 4'b0000;
-         3'b101: decimal_point = 4'b1000;
+         3'b101: decimal_point = 4'b0000;
          3'b110: decimal_point = 4'b0000;  
-         3'b111: decimal_point = 4'b0000;
+         3'b111: decimal_point = 4'b1000;
          default: decimal_point = 16'h0000;  // Default case: output all zeros
      endcase
    end    
@@ -46,3 +46,4 @@ module mux4_16_bits(
                                 // [1000] DP right of tens of minutes digit    
 
 endmodule
+
