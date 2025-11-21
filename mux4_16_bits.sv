@@ -5,8 +5,6 @@ module mux4_16_bits(
     input  logic [15:0] in3,  
     input  logic [15:0] in4,
     input  logic [15:0] in5,
-    input  logic [15:0] in6,
-    input  logic [15:0] in7,
     input  logic  [2:0] select,  
     output logic [15:0] mux_out,
     output logic  [3:0] decimal_point  
@@ -20,8 +18,6 @@ module mux4_16_bits(
             3'b011: mux_out = in3;
             3'b100: mux_out = in4;
             3'b101: mux_out = in5;
-            3'b110: mux_out = in6;
-            3'b111: mux_out = in7;
             default: mux_out = 16'h0000;  // Default case: output all zeros
         endcase
     end    
@@ -29,13 +25,11 @@ module mux4_16_bits(
    always_comb begin
      case(select)
          3'b000: decimal_point = 4'b0000;  // averaged ADC with extra 4 bits
-         3'b001: decimal_point = 4'b1000;  // averaged and scaled voltage
+         3'b001: decimal_point = 4'b0000;  // averaged and scaled voltage
          3'b010: decimal_point = 4'b0000;  // raw ADC (12-bits)
          3'b011: decimal_point = 4'b0000;
          3'b100: decimal_point = 4'b0000;
          3'b101: decimal_point = 4'b0000;
-         3'b110: decimal_point = 4'b0000;  
-         3'b111: decimal_point = 4'b1000;
          default: decimal_point = 16'h0000;  // Default case: output all zeros
      endcase
    end    
@@ -46,4 +40,3 @@ module mux4_16_bits(
                                 // [1000] DP right of tens of minutes digit    
 
 endmodule
-
