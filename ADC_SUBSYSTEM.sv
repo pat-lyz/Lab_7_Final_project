@@ -15,8 +15,7 @@ module adc_subsystem(
     output logic enable,
     output logic [15:0] data,               //raw data, in hexidecimal
     output logic [15:0] ave_data,           //averaged data, in hexidecimal
-    output logic [15:0] scaled_adc_data,    //scaled data in hexidecimal
-    output logic [15:0] bcd_value           //scaled data in decimal
+    output logic [15:0] scaled_adc_data    //scaled data in hexidecimal
     );
     
     logic        ready_r, ready_pulse;
@@ -78,16 +77,8 @@ module adc_subsystem(
         end 
 
     end 
-    
-    //converts the scaled_adc_value to decimal form    
-    bin_to_bcd BIN_TO_BCD (
-        .clk(    clk),
-        .reset(  reset),
-        .bin_in( scaled_adc_data),
-        .bcd_out(bcd_value)
-    );
-    
-    // added these 3 lines for the pulser 
+       
+ // added these 3 lines for the pulser 
   
   always_ff@(posedge clk)
     if (reset)
