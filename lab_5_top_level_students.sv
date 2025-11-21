@@ -90,7 +90,7 @@ assign led = saw_scale;
         .bcd_out(dec_out)
     );
     
-
+    //selected between hexidecimal values and decimal values
     mux4_16_bin BIN_BCD_MUX(
         .in0(mux_out), // switches value to hex
         .in1(dec_out),// switches value to dec
@@ -114,6 +114,7 @@ assign led = saw_scale;
     );
     
 endmodule
+
 
 
 
