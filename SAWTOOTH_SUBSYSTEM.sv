@@ -12,8 +12,7 @@ module sawtooth_subsystem(
     output logic sawtooth_out,  //outputs the sawtooth wave
     output logic [7:0] saw_raw_adc_value,   //raw comparator value
     output logic [15:0] saw_scaled_voltage, // hexidecimal scaled and averaged voltage values
-    output logic [7:0] saw_averaged_adc_value,  // hexidecimal averaged voltage
-    output logic [15:0] bcd_out //decimal scaled and averaged voltage
+    output logic [7:0] saw_averaged_adc_value  // hexidecimal averaged voltage
 );    
 // INTERNAL SIGNALS
     
@@ -64,15 +63,6 @@ module sawtooth_subsystem(
         .raw_adc_value(saw_raw_adc_value),
         .scaled_voltage(saw_scaled_voltage),
         .avg_adc_value(saw_averaged_adc_value)
-    );  
-       
-    // BCD converter
-    bin_to_bcd_saw BIN_TO_BCD_SAW (
-        .clk(clk),
-        .reset(reset),
-        .bin_in(saw_scaled_voltage),
-        .bcd_out(bcd_out)
-    );
-    
+    );    
 
 endmodule
