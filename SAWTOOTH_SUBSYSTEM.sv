@@ -35,7 +35,7 @@ module sawtooth_subsystem(
     sawtooth #(
         .WIDTH(8),
         .CLOCK_FREQ(100_000_000),
-        .WAVE_FREQ(1.0)           // 1 Hz
+        .WAVE_FREQ(50)           // 1 Hz
     ) SAWTOOTH_WAVEFORM (
         .clk(clk),
         .reset(reset),
