@@ -10,14 +10,18 @@ module edge_detector (input logic clk,
                      
      //internal signal
      logic comp_prev;
+     logic comp_sync;
                      
     // Synchronizer
     always_ff @(posedge clk) begin   
-        if (reset)
+        if (reset) begin
             comp_prev <= 1'b0;
-        else               
+            comp_sync <= 1'b0;
+        end else begin          
             comp_prev <= comparator_raw;
+            comp_sync <= comp_prev;
       end 
+    end
       
     
     // Falling Edge Detection
