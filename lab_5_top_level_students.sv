@@ -9,14 +9,16 @@ on JXAC11:GND and JXAC5:GND.
 The ADC is set to single-ended, continuous sampling, 1 MSps, 256 averaging. 
 Additional averaging is done using the averager module below.
 */
-module lab_7_top_level_students (
+module lab_7 (
     input  logic   clk,
     input  logic   reset,
-    input  logic [2:0] bin_bcd_select, //sets the values for the switches 
-    input  logic dec_hex,
+    input  logic [3:0] bin_bcd_select, //sets the values for the switches 
+    input  logic dec_hex,              // decides between decimal and hexidecimal values 
+    output logic [7:0] r2r_out,         // pins to collect the r2r data
     input          vauxp15, // Analog input (positive) - connect to JXAC4:N2 PMOD pin  (XADC4)
     input          vauxn15, // Analog input (negative) - connect to JXAC10:N1 PMOD pin (XADC4)
     input logic vcompare_state, // Sawtooth comparator ouput (pin JB1)
+    input logic vcompare_state_r2r, // R2R comparator ouput (pin JB3)
     output sawtooth_out, // goes to pin JB2
     output logic   CA, CB, CC, CD, CE, CF, CG, DP,  //Seven segment display signals
     output logic   AN1, AN2, AN3, AN4,
@@ -34,10 +36,10 @@ module lab_7_top_level_students (
                              // [0100] DP right of minutes digit        
                              // [1000] DP right of tens of minutes digit
    
-    logic [15:0] bcd_adc, mux_out, dec_out, bin_or_bcd;      //decimal adc for the XADC, output for the mux
+    logic [15:0] mux_out, dec_out, bin_or_bcd;      //decimal adc for the XADC, output for the mux
     
-    logic [15:0] bcd_saw, saw_scale;    //decimal scaled voltage for the sawtooth, hex scaled voltage for the sawtooth
-    logic [7:0] saw_raw, saw_avg;       // raw data from sawtooth, averaged data for the sawtooth
+    logic [15:0] bcd_saw, saw_scale, r2r_scaled, r2r_avg;    //decimal scaled voltage for the sawtooth, hex scaled voltage for the sawtooth
+    logic [7:0] saw_raw, saw_avg, r2r_raw;       // raw data from sawtooth, averaged data for the sawtooth
     
     //XADC subsystem
     adc_subsystem ADC_SUBSYSTEM(
@@ -49,8 +51,7 @@ module lab_7_top_level_students (
         .enable( enable),  
         .data(   data[15:0]),
         .ave_data(ave_data),
-        .scaled_adc_data(scaled_adc_data),
-        .bcd_value(bcd_adc)
+        .scaled_adc_data(scaled_adc_data)
     );
     
     //Sawtooth comparator subsystem
@@ -61,28 +62,40 @@ module lab_7_top_level_students (
         .sawtooth_out(sawtooth_out),
         .saw_raw_adc_value(saw_raw),
         .saw_scaled_voltage(saw_scale),
-        .saw_averaged_adc_value(saw_avg),
-        .bcd_out(bcd_saw)
+        .saw_averaged_adc_value(saw_avg)
+    );
+    
+    //R2R Subsystem
+    r2r_subsystem R2R_SUBSYSTEM(
+        .clk(clk),
+        .reset(reset),
+        .vcompare_state_r2r(vcompare_state_r2r),
+        .r2r_out(r2r_out),
+        .r2r_raw_adc_value(r2r_raw),
+        .r2r_scaled_voltage(r2r_scaled),
+        .r2r_averaged_adc_value(r2r_avg)
     );
 
     
  // Connect prefered data to LEDs
-assign led = saw_scale;
+assign led = bin_bcd_select;
 
     // Select which data to display based on switches
     mux4_16_bits MUX4 (
-        .in0(scaled_adc_data), // hexadecimal, scaled and averaged
-        .in1(data[15:4]),      // raw 12-bit ADC hexadecimal
-        .in2(ave_data),        // averaged and before scaling 16-bit ADC (extra 4-bits from averaging) hexadecimal
-        .in3({8'b0000_0000,saw_raw}),   //raw sawtooth value
-        .in4(saw_scale),                //scaled hexidecimal sawtooth value
-        .in5(saw_avg),                  // scaled and averaged sawtooth value, hexidecimal
+        .in0(data[15:4]),               // raw 12-bit ADC hexadecimal
+        .in1(ave_data),                 // averaged and before scaling 16-bit ADC (extra 4-bits from averaging) hexadecimal
+        .in2(scaled_adc_data),          // hexadecimal, scaled and averaged
+        .in3({8'b0000_0000,saw_raw}),   // raw sawtooth value
+        .in4(saw_avg),                  // scaled and averaged sawtooth value, hexidecimal
+        .in5(saw_scale),                // scaled hexidecimal sawtooth value
+        .in6({8'b0000_0000,r2r_raw}),   // Raw r2r data
+        .in7(r2r_avg),                  // averaged r2r data
+        .in8(r2r_scaled),               // scaled r2r data
         .select(bin_bcd_select),
         .mux_out(mux_out),
         .decimal_point(decimal_point)
     );
-
-    // Takes whatever value selected, outputs the decimal version
+    
     bin_to_bcd BIN_TO_BCD(
         .clk(    clk),
         .reset(  reset),
@@ -90,7 +103,7 @@ assign led = saw_scale;
         .bcd_out(dec_out)
     );
     
-    //selected between hexidecimal values and decimal values
+
     mux4_16_bin BIN_BCD_MUX(
         .in0(mux_out), // switches value to hex
         .in1(dec_out),// switches value to dec
@@ -114,7 +127,3 @@ assign led = saw_scale;
     );
     
 endmodule
-
-
-
-
