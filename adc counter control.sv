@@ -16,21 +16,31 @@ module adc_capture_control(
     output logic [7:0] raw_adc_value,
     output logic raw_adc_valid
 );
-    
-    
+
+    logic [7:0] captured_value;
+    logic data_captured;
+   
     always_ff @(posedge clk) begin
         if (reset) begin
+            captured_value <= '0;
+            data_captured <= 1'b0;
             raw_adc_value <= '0;
             raw_adc_valid <= 1'b0;
-            end
-        else begin
-            raw_adc_valid <= 1'b0; // low until adc data is captured
-            
+        end else begin
+            // Capture new data when enabled and sync edge detected
             if (enable && sync_edge_out) begin
-                raw_adc_value <= duty_cycle_out; // capture the duty cycle
-                raw_adc_valid <= 1'b1;
-                end
+                captured_value <= duty_cycle_out;
+                data_captured <= 1'b1;
+
             end
+           
+            // Always output the captured value
+            raw_adc_value <= captured_value;
+           
+            // raw_adc_valid is high when we have captured data
+            // This ensures it's always assigned and prevents timing warnings
+            raw_adc_valid <= data_captured;
+        end
     end
-    
+
 endmodule
