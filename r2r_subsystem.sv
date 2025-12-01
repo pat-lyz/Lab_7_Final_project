@@ -26,8 +26,7 @@ module r2r_subsystem(
     input logic vcompare_state_r2r, // R2R comparator ouput (pin JB3)
     output logic [7:0] r2r_out,
     output logic [7:0] r2r_raw_adc_value, 
-    output logic [15:0] r2r_scaled_voltage,
-    output logic [15:0] r2r_averaged_adc_value
+    output logic r2r_raw_adc_valid
     );
     
 // INTERNAL SIGNALS
@@ -35,7 +34,6 @@ module r2r_subsystem(
     // R2R Signals
     logic r2r_sync_edge_out;
     logic [7:0]  r2r_counter;
-    logic r2r_raw_adc_valid;
     
 // INSTANTIATIONS
   
@@ -68,18 +66,8 @@ module r2r_subsystem(
         .raw_adc_value(r2r_raw_adc_value),
         .raw_adc_valid(r2r_raw_adc_valid)
     );
-
-    // Average and Scale Raw ADC Data
-    R2R_avg_scale R2R_PROCESSING (
-        .clk(clk),
-        .reset(reset),
-        .adc_valid(r2r_raw_adc_valid),
-        .raw_adc_value(r2r_raw_adc_value),
-        .scaled_voltage(r2r_scaled_voltage),
-        .avg_adc_value(r2r_averaged_adc_value)
-    );
-  
-    assign r2r_out = r2r_counter; 
+    
+    assign r2r_out = r2r_counter;
     
 endmodule
 

@@ -8,8 +8,8 @@ module mux4_16_bin(
 
     always_comb begin
         case(select)
-            1'b0: mux_out = in0;    //outputs the hexidecimal
-            1'b1: mux_out = in1;    //outputs the decimal
+            1'b0: mux_out = in0;  
+            1'b1: mux_out = in1;
             default: mux_out = 16'h0000;  // Default case: output all zeros
         endcase
     end    

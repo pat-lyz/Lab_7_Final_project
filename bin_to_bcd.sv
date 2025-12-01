@@ -7,7 +7,7 @@
 
 // Claude 3rd attempt, works!!
 ///////////////////////////////////////////////////////////////////////////////
-// Module Name: bin_to_bcd
+// Module Name: bin_to_bcd_adc
 // 
 // Description:
 // This module converts a 16-bit binary input to a 16-bit BCD (Binary-Coded Decimal) output.

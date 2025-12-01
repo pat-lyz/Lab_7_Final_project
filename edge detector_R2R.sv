@@ -1,10 +1,4 @@
 // Synchronizer and Falling Edge Detection
-
-`timescale 1ns / 1ps
-
-
-
-// Synchronizer and Falling Edge Detection
 `timescale 1ns / 1ps
 module edge_detector_r2r (input logic clk,
                      input logic reset,

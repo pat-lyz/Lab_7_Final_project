@@ -10,14 +10,13 @@ module adc_subsystem(
     input logic vauxp15,
     input logic vauxn15,
     input logic clk,
-    input logic reset,    
-    output logic ready,        
-    output logic enable,
+    input logic reset,            
     output logic [15:0] data,               //raw data, in hexidecimal
     output logic [15:0] ave_data,           //averaged data, in hexidecimal
     output logic [15:0] scaled_adc_data    //scaled data in hexidecimal
     );
-    
+    logic        ready; 
+    logic        enable; 
     logic        ready_r, ready_pulse;
     localparam CHANNEL_ADDR = 7'h1f;    // XA4/AD15 (for XADC4)
     logic        eos_out;               //end of sequence

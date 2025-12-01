@@ -11,15 +11,13 @@ module sawtooth_subsystem(
     input logic vcompare_state, //sawtooth comparator output 
     output logic sawtooth_out,  //outputs the sawtooth wave
     output logic [7:0] saw_raw_adc_value,   //raw comparator value
-    output logic [15:0] saw_scaled_voltage, // hexidecimal scaled and averaged voltage values
-    output logic [7:0] saw_averaged_adc_value  // hexidecimal averaged voltage
+    output logic saw_raw_adc_valid
 );    
 // INTERNAL SIGNALS
     
     // Sawtooth Signals
     logic sync_edge_out;
     logic [7:0] saw_duty_cycle_out;
-    logic       saw_raw_adc_valid;
 
 // INSTANTIATIONS
   
@@ -54,15 +52,5 @@ module sawtooth_subsystem(
         .raw_adc_value(saw_raw_adc_value),
         .raw_adc_valid(saw_raw_adc_valid)
     );
-
-    // Average and Scale Raw ADC Data
-    saw_avg_scale SAW_PROCESSING (
-        .clk(clk),
-        .reset(reset),
-        .adc_valid(saw_raw_adc_valid),
-        .raw_adc_value(saw_raw_adc_value),
-        .scaled_voltage(saw_scaled_voltage),
-        .avg_adc_value(saw_averaged_adc_value)
-    );    
-
+    
 endmodule

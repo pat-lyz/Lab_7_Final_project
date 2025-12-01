@@ -15,24 +15,24 @@ module mux4_16_bits(
 
     always_comb begin
         case(select)
-            4'b0000: mux_out = in0;  
-            4'b0001: mux_out = in1;  
-            4'b0010: mux_out = in2;
-            4'b0011: mux_out = in3;
-            4'b0100: mux_out = in4;
-            4'b0101: mux_out = in5;
-            4'b0110: mux_out = in6;
-            4'b0111: mux_out = in7;
-            4'b1000: mux_out = in8;
+            4'b0000: mux_out = in0;        // raw 12-bit ADC hexadecimal                     
+            4'b0001: mux_out = in1;        // averaged ADC hexadecimal                       
+            4'b0010: mux_out = in2;        // hexadecimal, scaled and averaged               
+            4'b0011: mux_out = in3;        // raw sawtooth value                             
+            4'b0100: mux_out = in4;        // scaled and averaged sawtooth value, hexidecimal
+            4'b0101: mux_out = in5;        // scaled hexidecimal sawtooth value 
+            4'b0110: mux_out = in6;        // Raw r2r data                      
+            4'b0111: mux_out = in7;        // averaged r2r data                 
+            4'b1000: mux_out = in8;        // scaled r2r data                   
             default: mux_out = 16'h0000;  // Default case: output all zeros
         endcase
     end    
 
    always_comb begin
      case(select)
-         4'b0000: decimal_point = 4'b0000;  // averaged ADC with extra 4 bits
-         4'b0001: decimal_point = 4'b0000;  // averaged and scaled voltage
-         4'b0010: decimal_point = 4'b0000;  // raw ADC (12-bits)
+         4'b0000: decimal_point = 4'b0000;  
+         4'b0001: decimal_point = 4'b0000;  
+         4'b0010: decimal_point = 4'b0000;  
          4'b0011: decimal_point = 4'b0000;
          4'b0100: decimal_point = 4'b0000;
          4'b0101: decimal_point = 4'b0000;
@@ -49,4 +49,3 @@ module mux4_16_bits(
                                 // [1000] DP right of tens of minutes digit    
 
 endmodule
-
