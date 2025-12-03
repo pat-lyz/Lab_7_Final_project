@@ -48,7 +48,7 @@ module lab_7 (
     logic [15:0] saw_scale;
     logic [7:0] r2r_raw;
     logic [7:0] saw_raw;
-    logic r2r_valid, saw_valid;
+
     
                                                         
     //XACD signals                      
@@ -85,13 +85,14 @@ module lab_7 (
         .reset(reset),
         .vcompare_state(vcompare_state),    
         .sawtooth_out(sawtooth_out_ramp),        
-        .saw_raw(saw_raw_ramp),            //outputs raw sawtooth value
         .vcompare_state_r2r(vcompare_state_r2r),
         .r2r_out(r2r_out_ramp),                      //outputting the sawtooth wave to the r2r ladder
-        .r2r_raw(r2r_raw_ramp),            //outputs the raw r2r value
+        .r2r_raw(r2r_raw_ramp),                     //outputs the raw r2r value
+        .saw_raw(saw_raw_ramp),
         .r2r_valid_ramp(r2r_valid_ramp),
         .saw_valid_ramp(saw_valid_ramp)
     );
+
     
     sar_subsystem SAR_SUBSYSTEM(
         .clk(clk),
@@ -104,33 +105,37 @@ module lab_7 (
         .sawtooth_out(sawtooth_out_sar)
     );
     
+    assign sawtooth_out = sawtooth;
+    assign r2r_out = r2r;
+    
     mux4_16_SAR_ramp SAR_OR_RAMP(
-        .select_signal(button),
-        .signal_a(r2r_out_ramp),
-        .signal_b(r2r_out_sar),
-        .signal_c(sawtooth_out_ramp),
-        .signal_d(sawtooth_out_sar),
-        .output_pin_a(r2r),
-        .output_pin_b(sawtooth)
+         
+        .in0(r2r_out_ramp),               
+        .in1(sawtooth_out_ramp),                
+        .in2(r2r_out_sar),          
+        .in3(sawtooth_out_sar),   
+        .select(button),
+        .mux_out(r2r),
+        .mux_out2(sawtooth)
+
     );
     assign sawtooth_out = sawtooth;
     assign r2r_out = r2r;
     
     mux4_16_SAR_ramp_raw SAR_OR_RAMP_RAW(
-        //ramp raw and valid signals
-        .select_signal(button),
-        .signal_a(saw_raw_ramp),
-        .signal_b(r2r_raw_ramp),
-        .signal_c(r2r_valid_ramp),
-        .signal_d(saw_valid_ramp),
-        //sar raw signals (no valid, outputs a logic 1 instead
-        .signal_e(r2r_raw_sar),
-        .signal_f(saw_raw_sar),
-        
-        .output_pin_a (r2r_raw),
-        .output_pin_b (saw_raw),
-        .output_pin_c(r2r_valid),
-        .output_pin_d(saw_valid)
+
+        .in0(r2r_raw_ramp),              
+        .in1(saw_raw_ramp),
+        .in2(r2r_valid_ramp),
+        .in3(saw_valid_ramp),              
+        .in4(r2r_raw_sar),          
+        .in5(saw_raw_sar), 
+         
+        .select(button),
+        .mux_out(r2r_raw),
+        .mux_out2(saw_raw),
+        .mux_out3(r2r_valid),
+        .mux_out4(saw_valid)
     );
 
     signal_processing SIGNAL_PROCESSING(
@@ -163,7 +168,7 @@ assign led = bin_bcd_select;
         .in8(r2r_scaled),               // scaled r2r data
         .select(bin_bcd_select),
         .mux_out(mux_out),
-        .decimal_point(decimal_point)
+        .decimal_point(decimal_pt)
     );
     
     bin_to_bcd BIN_TO_BCD(
@@ -178,8 +183,7 @@ assign led = bin_bcd_select;
         .in0(mux_out), // switches value to hex
         .in1(dec_out),// switches value to dec
         .select(dec_hex),
-        .mux_out(bin_or_bcd),
-        .decimal_point(decimal_pt)
+        .mux_out(bin_or_bcd)
     );
      
     // Seven Segment Display Subsystem

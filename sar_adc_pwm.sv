@@ -1,4 +1,4 @@
-module sar_adc #(
+module sar_adc_pwm #(
     parameter WIDTH = 8
 )(
     input  logic dac_clk,

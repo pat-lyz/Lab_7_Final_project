@@ -1,32 +1,63 @@
 module mux4_16_SAR_ramp_raw(
-    input logic select_signal,
-    input logic signal_a,
-    input logic signal_b,
-    input logic signal_c,
-    input logic signal_d,
-    
-    input logic signal_e,
-    input logic signal_f,
-    
-    output logic [7:0] output_pin_a,        //raw signals
-    output logic [7:0] output_pin_b, 
-    output logic output_pin_c,              //valid signals
-    output logic output_pin_d
-    );
+    input  logic [7:0] in0,  
+    input  logic [7:0] in1,  
+    input  logic in2, 
+    input  logic in3, 
+    input  logic [7:0] in4,
+    input  logic [7:0] in5, 
+    input  logic select,  
+    output logic [7:0] mux_out,
+    output logic [7:0] mux_out2,
+    output logic mux_out3,
+    output logic mux_out4
 
-    always @(*) begin
-        if (select_signal) begin
-            output_pin_a = signal_e;
-            output_pin_b = signal_f;
-            output_pin_c = 1'b1;
-            output_pin_d = 1'b1;
-            end
-        else begin
-            output_pin_a = signal_a;
-            output_pin_b = signal_b;
-            output_pin_c = signal_c;
-            output_pin_d = signal_d;
-            end
-    end
+    );
+    
+    /*
+        .in0(r2r_raw_ramp),              
+        .in1(saw_raw_ramp),
+        .in2(r2r_valid_ramp),
+        .in3(saw_valid_ramp),              
+        .in4(r2r_raw_sar),          
+        .in5(saw_raw_sar), 
+         
+        .select(button),
+        .mux_out(r2r_raw),
+        .mux_out2(sawtooth_raw),
+        .mux_out3(r2r_valid),
+        .mux_out4(saw_valid)
+    */
+
+    always_comb begin
+        case(select)
+            1'b0: mux_out = in0;                          
+            1'b1: mux_out = in4;                                                                        
+            default: mux_out = '0;  
+        endcase
+    end    
+
+   always_comb begin
+     case(select)
+         1'b0: mux_out2 = in1;  
+         1'b1: mux_out2 = in5;  
+         default: mux_out2 = '0; 
+     endcase
+   end  
+      
+   always_comb begin
+     case(select)
+         1'b0: mux_out3 = in2;  
+         1'b1: mux_out3 = '1;  
+         default: mux_out3 = '0; 
+     endcase
+   end
+     
+   always_comb begin
+     case(select)
+         1'b0: mux_out4 = in3;  
+         1'b1: mux_out4 = '1;  
+         default: mux_out4 = '0; 
+     endcase
+   end    
 
 endmodule

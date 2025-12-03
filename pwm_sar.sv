@@ -1,4 +1,4 @@
-module pwm #( 
+module pwm_sar #( 
     parameter int WIDTH = 8
 ) (
     input  logic             clk,
@@ -67,4 +67,5 @@ endmodule
 //            pwm_out = 1'b0; 
 //    end
 
+//endmodule
 //endmodule

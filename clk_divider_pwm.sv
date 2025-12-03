@@ -19,7 +19,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-module clk_divider #(
+module clk_divider_pwm #(
     parameter DIVIDER = 1000  // 100 MHz / 1000 
 )(
     input  logic clk_100MHz,

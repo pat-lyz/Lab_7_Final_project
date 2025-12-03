@@ -38,7 +38,7 @@ module r2r_subsystem(
 // INSTANTIATIONS
   
     // Comparator edge detector
-    edge_detector EDGE_DETECTOR (
+    edge_detector_r2r EDGE_DETECTOR (
         .clk(clk),
         .reset(reset),
         .comparator_raw(vcompare_state_r2r),
@@ -57,7 +57,7 @@ module r2r_subsystem(
    assign r2r_out = r2r_counter; 
     
     // ADC Count
-    adc_capture_control R2R_ADC_CAPTURE (
+    adc_capture_control_r2r R2R_ADC_CAPTURE (
         .clk(clk),
         .reset(reset),
         .enable(1'b1),             // always enabled
@@ -70,4 +70,3 @@ module r2r_subsystem(
     assign r2r_out = r2r_counter;
     
 endmodule
-
