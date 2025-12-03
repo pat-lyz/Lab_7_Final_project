@@ -12,21 +12,6 @@ module mux4_16_SAR_ramp_raw(
     output logic mux_out4
 
     );
-    
-    /*
-        .in0(r2r_raw_ramp),              
-        .in1(saw_raw_ramp),
-        .in2(r2r_valid_ramp),
-        .in3(saw_valid_ramp),              
-        .in4(r2r_raw_sar),          
-        .in5(saw_raw_sar), 
-         
-        .select(button),
-        .mux_out(r2r_raw),
-        .mux_out2(sawtooth_raw),
-        .mux_out3(r2r_valid),
-        .mux_out4(saw_valid)
-    */
 
     always_comb begin
         case(select)
