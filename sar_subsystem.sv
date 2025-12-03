@@ -16,7 +16,7 @@ module sar_subsystem(
     .clk(clk),
     .reset(reset),
     .vcompare_state_SAR(vcompare_state_SAR),
-    .r2r_out_sar(r2r_out_sar),
+    .R2R_out(r2r_out_sar),
     .adc_data(adc_data)
     );
   
