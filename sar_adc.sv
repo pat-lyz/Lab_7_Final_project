@@ -26,7 +26,7 @@ module sar_adc #(
     logic [3:0] settle_counter;
     
     // Comparator input synchronizer
-    always_ff @(posedge dac_clk or posedge reset) begin
+    always_ff @(posedge dac_clk) begin
         if (reset) begin
             comp_meta <= 1'b0;
             comp_sync <= 1'b0;
@@ -37,7 +37,7 @@ module sar_adc #(
     end
     
     // SAR Control FSM
-    always_ff @(posedge dac_clk or posedge reset) begin
+    always_ff @(posedge dac_clk) begin
         if (reset) begin
             state <= IDLE;
             dac_register <= '0;
@@ -98,4 +98,5 @@ module sar_adc #(
     // Output the current DAC value
     assign dac_value = dac_register;
     
+
 endmodule
