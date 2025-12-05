@@ -29,7 +29,7 @@ module clk_divider_pwm #(
     
     logic [$clog2(DIVIDER)-1:0] counter;
     
-    always_ff @(posedge clk_100MHz or posedge reset) begin
+    always_ff @(posedge clk_100MHz) begin
         if (reset) begin
             counter <= 0;
             dac_clk <= 0;
